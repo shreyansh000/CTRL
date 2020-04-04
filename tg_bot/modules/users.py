@@ -111,11 +111,9 @@ def rem_chat(bot: Bot, update: Update):
     for chat in chats:
         id = chat.chat_id
         sleep(0.1) # Reduce floodwait
-        try:
-            bot.get_chat(id, timeout=60)
-        except (BadRequest, Unauthorized):
-            kicked_chats += 1
-            sql.rem_chat(id)
+        bot.get_chat(id)
+        kicked_chats += 1
+        sql.rem_chat(id)
     if kicked_chats >= 1:
         msg.reply_text("Done! {} chats were removed from the database!".format(kicked_chats))
     else:
